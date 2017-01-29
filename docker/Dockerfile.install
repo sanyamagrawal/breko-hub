@@ -1,0 +1,30 @@
+FROM node:6-alpine
+MAINTAINER Thomas Hudspith-Tatham <tom@tomatao.co.uk>
+
+# RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
+# RUN echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
+# RUN apt-get -y update && apt-get install -y \
+#   yarn
+
+ENV APP_DIR /usr/src/app
+ENV NODE_ENV production
+
+RUN mkdir -p $APP_DIR
+WORKDIR $APP_DIR
+
+COPY package.json .
+
+RUN npm install --production
+
+# EXPOSE 8000
+
+# CMD ["npm", "start"]
+
+
+# package:install[NODE_ENV]
+# tests:unit&func             (install[dev])
+# app:start[NODE_ENV]         (install[NODE_ENV])
+# tests:e2e                   (install[dev], start[dev])
+# tests:integration           (install[prod], start)
+
+

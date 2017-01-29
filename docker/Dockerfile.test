@@ -1,0 +1,16 @@
+FROM tomatao/breko-hub-install
+MAINTAINER Thomas Hudspith-Tatham <tom@tomatao.co.uk>
+
+ENV NODE_ENV test
+
+RUN npm install
+
+COPY .babelrc .
+COPY .eslintrc .
+COPY .istanbul.yml .
+COPY .sass-lint.yml .
+COPY scripts scripts
+COPY src src
+COPY test test
+
+CMD [ "npm", "test" ]

@@ -78,6 +78,7 @@ export default {
 
 export const babelLoaderConfig = {
   test: /\.jsx?$/,
+  exclude: [ /node_modules/ ],
   include: [ /src\/app/, /src\/config/, /src\/server/ ],
   loader: 'babel',
   query: {

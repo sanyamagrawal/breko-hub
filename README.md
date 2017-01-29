@@ -147,3 +147,22 @@ npm run coverage:check
 ```
 
 Reads `.istanbul.yml` for thresholds in check.
+
+## Docker
+
+```bash
+# production install of /node_modules
+$ docker build -f ./docker/Dockerfile.install -t tomatao/breko-hub-install .
+# development install of /node_modules, runs unit and functional tests
+$ docker build -f ./docker/Dockerfile.test -t tomatao/breko-hub-test .
+$ docker run tomatao/breko-hub-test
+# development install of /node_movules, runs start with debug and port at 9001
+$ docker build -f ./docker/Dockerfile.dev -t tomatao/breko-hub-dev .
+$ docker run -p 9001:9001 -d tomatao/breko-hub-dev
+# runs dev image with volume mapping for live reload
+$ docker-compose up
+
+# debug
+$ docker run -it tomatao/breko-hub-test /bin/ash
+$ docker ecec -it [containder_id] /bin/ash
+```
