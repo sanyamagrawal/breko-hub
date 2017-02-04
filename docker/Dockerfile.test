@@ -2,13 +2,16 @@ FROM tomatao/breko-hub-install
 MAINTAINER Thomas Hudspith-Tatham <tom@tomatao.co.uk>
 
 ENV NODE_ENV test
+ENV DEBUG *,-babel,-koa*,-css-modules*,-engine*,-socket.io*,-mocha*,-follow-redirects,-superagent
 
-RUN npm install
+RUN yarn install
 
-COPY .babelrc .
-COPY .eslintrc .
-COPY .istanbul.yml .
-COPY .sass-lint.yml .
+COPY \
+  .eslintignore \
+  .eslintrc \
+  .istanbul.yml \
+  .sass-lint.yml \
+  $APP_DIR
 COPY scripts scripts
 COPY src src
 COPY test test

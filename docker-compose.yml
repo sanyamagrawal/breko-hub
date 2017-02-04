@@ -1,9 +1,10 @@
 version: '2'
 services:
-  web:
+  dev:
     build: .
     image: tomatao/breko-hub-dev
     ports:
       - "9001:9001"
     volumes:
       - ./src:/usr/src/app/src
+      - .env:/usr/src/app/.env

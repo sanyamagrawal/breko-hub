@@ -1,28 +1,54 @@
 FROM node:6-alpine
 MAINTAINER Thomas Hudspith-Tatham <tom@tomatao.co.uk>
 
-# RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
-# RUN echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
-# RUN apt-get -y update && apt-get install -y \
-#   yarn
+RUN addgroup -S app \
+   && adduser -S -g app app
 
-ENV APP_DIR /usr/src/app
+ENV PATH /root/.yarn/bin:$PATH
+
+ADD https://github.com/Yelp/dumb-init/releases/download/v1.0.0/dumb-init_1.0.0_amd64 /usr/local/bin/dumb-init
+RUN chmod +x /usr/local/bin/dumb-init
+
+
+RUN apk update \
+  && apk add curl bash binutils tar \
+  && rm -rf /var/cache/apk/* \
+  && /bin/bash \
+  && touch ~/.bashrc \
+  && curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version 0.20.0 \
+  && apk del curl tar binutils
+
+ENV APP_DIR /usr/src/app/
 ENV NODE_ENV production
 
 RUN mkdir -p $APP_DIR
 WORKDIR $APP_DIR
 
 COPY package.json .
+COPY yarn.lock .
 
-RUN npm install --production
+RUN yarn install --production
 
-# EXPOSE 8000
+# PRODUCTION
+ENV PORT 9001
+ENV DEBUG *,-babel,-koa*,-css-modules*,-engine*,-socket.io*,-follow-redirects
 
-# CMD ["npm", "start"]
+COPY .babelrc .
+COPY src src
+
+EXPOSE $PORT
+
+RUN ./node_modules/.bin/webpack --config './src/config/webpack.production.config.babel.js'
+
+USER app
+ENTRYPOINT [ "dumb-init" ]
+
+CMD [ "node", "./src/server-entry.js" ]
 
 
 # package:install[NODE_ENV]
 # tests:unit&func             (install[dev])
+# app:build[NODE_ENV]         (install[NODE_ENV])
 # app:start[NODE_ENV]         (install[NODE_ENV])
 # tests:e2e                   (install[dev], start[dev])
 # tests:integration           (install[prod], start)

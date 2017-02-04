@@ -2,15 +2,10 @@ FROM tomatao/breko-hub-install
 MAINTAINER Thomas Hudspith-Tatham <tom@tomatao.co.uk>
 
 ENV NODE_ENV development
+ENV DEBUG *,-babel,-koa*,-css-modules*,-engine*,-socket.io*,-mocha*,-follow-redirects,-superagent
 
-RUN npm install
+RUN yarn install
 
-COPY .babelrc .
-COPY scripts scripts
 COPY src src
 
-ENV PORT 9001
-ENV DEBUG *,-babel,-koa*,-css-modules*,-engine*,-socket.io*,-mocha*,-follow-redirects,-superagent
-EXPOSE $PORT
-
-CMD [ "npm", "start" ]
+CMD [ "node", "./src/server-entry.js" ]

@@ -155,7 +155,7 @@ Reads `.istanbul.yml` for thresholds in check.
 $ docker build -f ./docker/Dockerfile.install -t tomatao/breko-hub-install .
 # development install of /node_modules, runs unit and functional tests
 $ docker build -f ./docker/Dockerfile.test -t tomatao/breko-hub-test .
-$ docker run tomatao/breko-hub-test
+$ docker run --rm tomatao/breko-hub-test
 # development install of /node_movules, runs start with debug and port at 9001
 $ docker build -f ./docker/Dockerfile.dev -t tomatao/breko-hub-dev .
 $ docker run -p 9001:9001 -d tomatao/breko-hub-dev

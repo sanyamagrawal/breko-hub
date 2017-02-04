@@ -43,6 +43,7 @@ export default {
       'process.env': {
         'NODE_ENV': JSON.stringify(process.env.NODE_ENV),
         'DEBUG': JSON.stringify(process.env.DEBUG),
+        'APP_ENV': JSON.stringify('browser'),
       },
     }),
     new webpack.optimize.OccurenceOrderPlugin(),
