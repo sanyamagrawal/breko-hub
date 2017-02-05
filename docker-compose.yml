@@ -7,4 +7,7 @@ services:
       - "9001:9001"
     volumes:
       - ./src:/usr/src/app/src
+      # - /usr/src/app/node_modules
       - .env:/usr/src/app/.env
+    stdin_open: true
+    tty: true

@@ -4,12 +4,13 @@ MAINTAINER Thomas Hudspith-Tatham <tom@tomatao.co.uk>
 RUN addgroup -S app \
    && adduser -S -g app app
 
-ENV PATH /root/.yarn/bin:$PATH
-
-ADD https://github.com/Yelp/dumb-init/releases/download/v1.0.0/dumb-init_1.0.0_amd64 /usr/local/bin/dumb-init
+# install dumb-init
+ADD https://github.com/Yelp/dumb-init/releases/download/v1.0.0/dumb-init_1.0.0_amd64 \
+  /usr/local/bin/dumb-init
 RUN chmod +x /usr/local/bin/dumb-init
 
-
+# install yarn
+ENV PATH /root/.yarn/bin:$PATH
 RUN apk update \
   && apk add curl bash binutils tar \
   && rm -rf /var/cache/apk/* \
@@ -18,39 +19,36 @@ RUN apk update \
   && curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version 0.20.0 \
   && apk del curl tar binutils
 
-ENV APP_DIR /usr/src/app/
+# prepare application directory
+ENV APP_DIR /usr/src/app
 ENV NODE_ENV production
+ENV PORT 9001
+ENV DEBUG *,-babel,-koa*,-css-modules*,-engine*,-socket.io*,-follow-redirects
 
 RUN mkdir -p $APP_DIR
 WORKDIR $APP_DIR
 
+COPY .babelrc .
 COPY package.json .
 COPY yarn.lock .
-
-RUN yarn install --production
-
-# PRODUCTION
-ENV PORT 9001
-ENV DEBUG *,-babel,-koa*,-css-modules*,-engine*,-socket.io*,-follow-redirects
-
-COPY .babelrc .
 COPY src src
+# RUN chown -R app:app $APP_DIR
 
-EXPOSE $PORT
+# install dependencies
+RUN yarn install --production
+# one of these two things seems to break stuff
+# --pure-lockfile \
+  # && yarn cache clean
 
+# restrict permissions
+# seems to break everything despite the chown
+# USER app
+
+# build assets
 RUN ./node_modules/.bin/webpack --config './src/config/webpack.production.config.babel.js'
 
-USER app
+EXPOSE $PORT
 ENTRYPOINT [ "dumb-init" ]
 
 CMD [ "node", "./src/server-entry.js" ]
-
-
-# package:install[NODE_ENV]
-# tests:unit&func             (install[dev])
-# app:build[NODE_ENV]         (install[NODE_ENV])
-# app:start[NODE_ENV]         (install[NODE_ENV])
-# tests:e2e                   (install[dev], start[dev])
-# tests:integration           (install[prod], start)
-
 

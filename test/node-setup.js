@@ -1,4 +1,4 @@
-process.env.DEBUG = false
+delete process.env.DEBUG
 process.env.NODE_ENV = 'test'
 // This file ensures JSDOM is loaded before React is included
 import 'helpers/cssModulesHook'

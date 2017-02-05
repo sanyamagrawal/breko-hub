@@ -11,7 +11,7 @@ COPY \
   .eslintrc \
   .istanbul.yml \
   .sass-lint.yml \
-  $APP_DIR
+  $APP_DIR/
 COPY scripts scripts
 COPY src src
 COPY test test

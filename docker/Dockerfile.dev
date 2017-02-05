@@ -4,8 +4,11 @@ MAINTAINER Thomas Hudspith-Tatham <tom@tomatao.co.uk>
 ENV NODE_ENV development
 ENV DEBUG *,-babel,-koa*,-css-modules*,-engine*,-socket.io*,-mocha*,-follow-redirects,-superagent
 
+# should probably re-copy the package.json too
 RUN yarn install
 
+# re-copy because files may change..
 COPY src src
+# RUN chown -R app:app $APP_DIR
 
-CMD [ "node", "./src/server-entry.js" ]
+# CMD [ "node", "./src/server-entry.js" ]
