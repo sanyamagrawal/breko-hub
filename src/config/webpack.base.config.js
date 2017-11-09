@@ -87,6 +87,7 @@ export const babelLoaderConfig = {
   loader: 'babel-loader',
   options: {
     presets: [
+      'flow',
       [ 'env', {
         targets: { browsers: [ 'last 2 versions' ] },
         modules: false,

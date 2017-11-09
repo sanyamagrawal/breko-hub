@@ -1,6 +1,7 @@
+// @flow
 import { filter } from 'ramda'
 import { typeToReducer, get } from 'app/utils'
-import { REMOVE_MESSAGE, ADD_MESSAGE } from './flash.constants'
+import { REMOVE_MESSAGE, ADD_MESSAGE } from 'app/modules/flash/flash.constants'
 
 const getFlashId = get('payload.id')
 

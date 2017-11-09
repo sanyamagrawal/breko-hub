@@ -1,24 +1,21 @@
+// @flow
 import { connect } from 'react-redux'
-import PropTypes from 'prop-types'
 import { Bem, noop, cleanProps } from 'app/utils'
 import { removeMessage } from 'app/modules/flash/flash.actions'
+import type { Message } from 'app/modules/flash/flash.types'
 import './Msg.scss'
 
 const bem = new Bem('Msg')
 
-@connect(null, { onClickClose: removeMessage })
-export default class Msg extends React.Component {
-  static propTypes = {
-    msg: PropTypes.shape({
-      id: PropTypes.string,
-      type: PropTypes.oneOf([ 'error', 'good', 'info' ]),
-      message: PropTypes.string,
-    }),
-    onClickClose: PropTypes.func,
-  };
+type Props = {
+  msg: Message,
+  onClickClose: Function,
+  className?: string,
+}
 
+@connect(null, { onClickClose: removeMessage })
+export default class Msg extends React.Component<Props> {
   static defaultProps = {
-    msg: {},
     onClickClose: noop,
   };
 

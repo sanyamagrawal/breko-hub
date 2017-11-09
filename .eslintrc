@@ -9,6 +9,34 @@
   "parserOptions": {
     "sourceType": "module",
   },
+  "plugins": [
+    "react",
+    "jsx-a11y",
+    "mocha",
+    "import",
+    "flowtype"
+  ],
+  "globals": {
+    "expect": true,
+    "global": true,
+    "window": true,
+    "sinon": true,
+    "debug": true,
+    "React": true,
+    "PropTypes": true,
+    "shallow": true,
+    "mount": true,
+    "render": true,
+    "snap": true,
+    "_": true,
+    "R": true,
+    "Ø": true,
+    "HELLIP": true,
+    "NBSP": true,
+    "sandbox": true,
+    "helpers": true,
+    "defer": true
+  },
   "rules": {
     "array-bracket-spacing": [2, "always"],
     "comma-dangle": [1, "always-multiline"],
@@ -51,33 +79,8 @@
       "named": "never",
       "asyncArrow": "always"
     }],
-    "strict": 0
-  },
-  "plugins": [
-    "react",
-    "jsx-a11y",
-    "mocha",
-    "import"
-  ],
-  "globals": {
-    "expect": true,
-    "global": true,
-    "window": true,
-    "sinon": true,
-    "debug": true,
-    "React": true,
-    "PropTypes": true,
-    "shallow": true,
-    "mount": true,
-    "render": true,
-    "snap": true,
-    "_": true,
-    "R": true,
-    "Ø": true,
-    "HELLIP": true,
-    "NBSP": true,
-    "sandbox": true,
-    "helpers": true,
-    "defer": true
+    "strict": 0,
+    "flowtype/define-flow-type": 1,
+    "flowtype/use-flow-type": 1
   }
 }

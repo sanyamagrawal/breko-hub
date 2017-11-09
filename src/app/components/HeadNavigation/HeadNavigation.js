@@ -1,3 +1,4 @@
+// @flow
 import cx from 'classnames'
 import { NavLink } from 'react-router-dom'
 import styles from './HeadNavigation.module.scss'

@@ -1,3 +1,4 @@
+// @flow
 import ReactDOM from 'react-dom'
 import { ConnectedRouter, routerMiddleware } from 'react-router-redux'
 import { AppContainer } from 'react-hot-loader'
